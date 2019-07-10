@@ -1,0 +1,13 @@
+exports.up = function(knex) {
+  return knex.schema.createTable("potluck_planner", tbl => {
+    tbl.increments();
+    tbl
+      .string("name", 128)
+      .notNullable()
+      .unique();
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTableIfExists("potluck_planner");
+};
