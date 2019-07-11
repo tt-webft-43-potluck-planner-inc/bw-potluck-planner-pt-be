@@ -4,7 +4,6 @@ module.exports = {
   insert,
   update,
   remove,
-  getAll,
   findById,
   findByEmail,
   findByPotluckId
@@ -14,10 +13,6 @@ async function remove(id) {
   return await db("users")
     .where("id", Number(id))
     .del();
-}
-
-async function getAll() {
-  return await db("users");
 }
 
 async function findById(id) {
