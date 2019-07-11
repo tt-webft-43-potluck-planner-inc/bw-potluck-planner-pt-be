@@ -6,6 +6,9 @@ module.exports = {
     connection: {
       filename: "./data/dev.db3"
     },
+    seeds: {
+      directory: "./data/seeds/"
+    },
     useNullAsDefault: true
   },
 
@@ -13,6 +16,9 @@ module.exports = {
     client: "sqlite3",
     connection: {
       filename: "./data/test.db3"
+    },
+    seeds: {
+      directory: "./data/seeds/"
     },
     useNullAsDefault: true
   },
