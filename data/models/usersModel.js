@@ -5,7 +5,8 @@ module.exports = {
   update,
   remove,
   getAll,
-  findById
+  findById,
+  findByEmail
 };
 
 async function remove(id) {
@@ -21,6 +22,12 @@ async function getAll() {
 async function findById(id) {
   return await db("users")
     .where({ id: Number(id) })
+    .first();
+}
+
+async function findByEmail(email) {
+  return await db("users")
+    .where({ email })
     .first();
 }
 

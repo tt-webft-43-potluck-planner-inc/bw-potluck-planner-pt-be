@@ -1,6 +1,11 @@
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 
+module.exports = {
+  createHash,
+  checkHash
+};
+
 async function createHash(pass, salt) {
   try {
     const newHash = await new Promise((res, rej) => {
