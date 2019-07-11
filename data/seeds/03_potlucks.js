@@ -1,5 +1,5 @@
 const faker = require("faker");
-const db = require("../models/usersModel.js");
+
 exports.seed = async function(knex) {
     const potlucks = [];
     for(let i  = 0; i < 10; i++) { 
@@ -13,5 +13,5 @@ exports.seed = async function(knex) {
     .del()
     .then(function() {
       return knex("potlucks").insert(potlucks);
-    });
+    })
 }
