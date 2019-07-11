@@ -1,5 +1,3 @@
-const faker = require("faker");
-
 exports.seed = async function(knex) {
   const relationships = [];
   for (let i = 0; i < 50; i++) {
