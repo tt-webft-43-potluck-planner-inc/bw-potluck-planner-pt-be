@@ -6,7 +6,8 @@ module.exports = {
   remove,
   getAll,
   findById,
-  findByEmail
+  findByEmail,
+  findByPotluckId
 };
 
 async function remove(id) {
@@ -29,6 +30,12 @@ async function findByEmail(email) {
   return await db("users")
     .where({ email })
     .first();
+}
+
+async function findByPotluckId(id) {
+  return await db("users")
+    .innerJoin("usersPotlucks", "usersPotlucks.userId", "users.id")
+    .where("potluckId", Number(id));
 }
 
 async function insert(record) {
