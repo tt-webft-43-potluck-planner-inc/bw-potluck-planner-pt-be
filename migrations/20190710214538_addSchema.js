@@ -57,10 +57,7 @@ exports.up = async function(knex) {
   });
   await knex.schema.createTable("potluckRequirements", tbl => {
     tbl.increments("id");
-    tbl
-      .integer("potluckrequirementsId")
-      .unique()
-      .notNullable();
+    tbl.integer("potluckrequirementsId").notNullable();
     tbl
       .foreign("potluckrequirementsId")
       .references("id")
