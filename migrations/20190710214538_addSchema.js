@@ -22,22 +22,16 @@ exports.up = async function(knex) {
 
   await knex.schema.createTable("usersPotlucks", tbl => {
     tbl.increments("id");
+    tbl.integer("userId").notNullable();
     tbl
-      .integer("userId")
+      .foreign("userId")
       .references("id")
-      .inTable("users")
-      .unique()
-      .onDelete("CASCADE")
-      .onUpdate("CASCADE")
-      .notNullable();
+      .inTable("users");
+    tbl.integer("potluckId").notNullable();
     tbl
-      .integer("potluckId")
+      .foreign("potluckId")
       .references("id")
-      .inTable("potlucks")
-      .unique()
-      .onDelete("CASCADE")
-      .onUpdate("CASCADE")
-      .notNullable();
+      .inTable("potlucks");
     tbl.integer("role").notNullable();
     tbl.integer("attendance");
   });
@@ -50,14 +44,12 @@ exports.up = async function(knex) {
     tbl.increments("id");
     tbl
       .integer("potluckitemsId")
-      .references("id")
-      .inTable("users")
-      .references("id")
-      .inTable("potlucks")
       .unique()
-      .onDelete("CASCADE")
-      .onUpdate("CASCADE")
       .notNullable();
+    tbl
+      .foreign("potluckitemsId")
+      .references("id")
+      .inTable("users");
     tbl.string("foodName").notNullable();
     tbl.integer("servings").notNullable();
   });
@@ -65,12 +57,12 @@ exports.up = async function(knex) {
     tbl.increments("id");
     tbl
       .integer("potluckrequirementsId")
-      .references("id")
-      .inTable("potlucks")
       .unique()
-      .onDelete("CASCADE")
-      .onUpdate("CASCADE")
       .notNullable();
+    tbl
+      .foreign("potluckrequirementsId")
+      .references("id")
+      .inTable("potlucks");
     tbl.string("foodType").notNullable();
     tbl.integer("servings").notNullable();
   });
