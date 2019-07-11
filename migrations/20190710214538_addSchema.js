@@ -22,22 +22,16 @@ exports.up = async function(knex) {
 
   await knex.schema.createTable("usersPotlucks", tbl => {
     tbl.increments("id");
+    tbl.integer("userId").notNullable();
     tbl
-      .integer("userId")
+      .foreign("userId")
       .references("id")
-      .inTable("users")
-      .unique()
-      .onDelete("CASCADE")
-      .onUpdate("CASCADE")
-      .notNullable();
+      .inTable("users");
+    tbl.integer("potluckId").notNullable();
     tbl
-      .integer("potluckId")
+      .foreign("potluckId")
       .references("id")
-      .inTable("potlucks")
-      .unique()
-      .onDelete("CASCADE")
-      .onUpdate("CASCADE")
-      .notNullable();
+      .inTable("potlucks");
     tbl.integer("role").notNullable();
     tbl.integer("attendance");
   });
@@ -48,39 +42,37 @@ exports.up = async function(knex) {
   });
   await knex.schema.createTable("potluckItems", tbl => {
     tbl.increments("id");
+    tbl.integer("potluckItemsUserId").notNullable();
     tbl
-      .integer("potluckitemsId")
+      .foreign("potluckItemsUserId")
       .references("id")
-      .inTable("users")
+      .inTable("users");
+    tbl.integer("potluckItemsPotluckId").notNullable();
+    tbl
+      .foreign("potluckItemsPotluckId")
       .references("id")
-      .inTable("potlucks")
-      .unique()
-      .onDelete("CASCADE")
-      .onUpdate("CASCADE")
-      .notNullable();
+      .inTable("potlucks");
     tbl.string("foodName").notNullable();
     tbl.integer("servings").notNullable();
   });
   await knex.schema.createTable("potluckRequirements", tbl => {
     tbl.increments("id");
+    tbl.integer("potluckrequirementsId").notNullable();
     tbl
-      .integer("potluckrequirementsId")
+      .foreign("potluckrequirementsId")
       .references("id")
-      .inTable("potlucks")
-      .unique()
-      .onDelete("CASCADE")
-      .onUpdate("CASCADE")
-      .notNullable();
+      .inTable("potlucks");
     tbl.string("foodType").notNullable();
     tbl.integer("servings").notNullable();
   });
 };
 
 exports.down = async function(knex) {
-  await knex.schema.dropTableIfExists("cohorts_students");
-  await knex.schema.dropTableIfExists("students");
-  await knex.schema.dropTableIfExists("cohorts");
-  await knex.schema.dropTableIfExists("tracks");
+  await knex.schema.dropTableIfExists("users");
+  await knex.schema.dropTableIfExists("usersPotlucks");
+  await knex.schema.dropTableIfExists("potlucks");
+  await knex.schema.dropTableIfExists("potluckItems");
+  await knex.schema.dropTableIfExists("potluckRequirements");
 
   await knex.schema.createTable("potluck_planner", tbl => {
     tbl.increments();
