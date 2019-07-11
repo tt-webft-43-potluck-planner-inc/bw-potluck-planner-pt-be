@@ -25,9 +25,10 @@ async function findById(id) {
 }
 
 async function insert(record) {
-  return await db("users")
-    .insert(record)
-    .then(ids => ({ id: ids[0] }));
+  const [id] = await db("users").insert(record);
+  return db("users")
+    .where({ id })
+    .first();
 }
 
 async function update(id, record) {
