@@ -8,7 +8,8 @@ const router = require("express").Router();
 function generateToken(user) {
   return jwt.sign(
     {
-      id: user.id
+      id: user.id,
+      email: user.email
     },
     secrets,
     {

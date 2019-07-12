@@ -33,3 +33,14 @@ async function checkHash(pass, userPass) {
     console.log(err);
   }
 }
+
+async function checkJwt(tok, req, res) {
+  jwt.verify(tok, jwtKey, (err, decoded) => {
+    if (err) {
+      i;
+      res.status(401).json(err);
+    }
+
+    return (req.decoded = decoded);
+  });
+}
