@@ -10,7 +10,7 @@ exports.seed = async function(knex) {
     relationships.push(newRelationship);
   }
 
-  return knex("usersPotlucks")
+  return await knex("usersPotlucks")
     .del()
     .then(function() {
       return knex("usersPotlucks").insert(relationships);
