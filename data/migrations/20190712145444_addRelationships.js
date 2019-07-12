@@ -24,6 +24,7 @@ exports.up = async function(knex) {
         .inTable("potlucks");
     });
 
+}
   
   exports.down = async function(knex) {
       await knex.schema.table("usersPotlucks", tbl => {
@@ -49,6 +50,5 @@ exports.up = async function(knex) {
             .references("id")
             .inTable("potlucks");
         });
-      }
 
-    };
+};
