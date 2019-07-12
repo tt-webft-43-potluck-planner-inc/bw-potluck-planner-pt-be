@@ -1,17 +1,16 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const secrets = process.env.JWT_SECRET || "testing";
+const secrets = process.env.JWT_SECRET || "lambda";
 const Users = require("../data/models/usersModel.js");
-const helpers = require("../helpers/helpers.js");
+const router = require("express").Router();
 
 function generateToken(user) {
   return jwt.sign(
     {
-      userId: user.id,
-      userRole: "student"
+      id: user.id
     },
-    secrets.jwt,
+    secrets,
     {
       expiresIn: "1h"
     }
@@ -20,16 +19,15 @@ function generateToken(user) {
 
 router.post("/register", (req, res) => {
   let user = req.body;
-  const hash = bcrypt.hashSync(user.password, 10); // 2 ^ n
+  const hash = bcrypt.hashSync(user.password, 10);
   user.password = hash;
 
-  Users.add(user)
+  Users.insert(user)
     .then(saved => {
       const token = generateToken(saved);
 
       res.status(201).json({
-        message: `Welcome ${saved.username}!`,
-        authToken: token
+        message: `welcome ${saved.firstName}, u are now registered`
       });
     })
     .catch(error => {
@@ -40,18 +38,17 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
   let { email, password } = req.body;
 
-  Users.findByEmail({ email })
-    .first()
+  Users.findByEmail(email)
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user);
 
         res.status(200).json({
-          message: `Welcome ${user.username}!`,
+          message: `hello again ${user.firstName}, u are now logged in`,
           authToken: token
         });
       } else {
-        res.status(401).json({ message: "Invalid Credentials" });
+        res.status(401).json({ message: "invalid Credentials" });
       }
     })
     .catch(error => {

@@ -1,15 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const helm = require("helmet");
-const morg = require("morgan");
-const usersRoute = require("./routes/usersRoute.js");
+const morgan = require("morgan");
+const authRouter = require("../auth/auth-router.js");
 
 const server = express();
 
-server.use(helm(), express.json(), morg("dev"));
+server.use(helm(), express.json(), morgan("dev"));
 server.use(cors());
 
-usersRoute(server);
+server.use("/api/auth", authRouter);
 
 server.get("/", async (req, res) => {
   res.send("😋");
