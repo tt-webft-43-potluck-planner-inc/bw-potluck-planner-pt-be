@@ -25,10 +25,6 @@ exports.up = async function(knex) {
     tbl.increments("id");
     tbl.integer("userId").notNullable();
     tbl.integer("potluckId").notNullable();
-    tbl
-      .foreign("potluckId")
-      .references("id")
-      .inTable("potlucks");
     tbl.integer("role").notNullable();
     tbl.integer("attendance");
   });

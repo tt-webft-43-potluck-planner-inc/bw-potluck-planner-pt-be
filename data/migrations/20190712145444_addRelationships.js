@@ -4,7 +4,7 @@ exports.up = async function(knex) {
       tbl
         .foreign("potluckId")
         .references("id")
-        .inTable("potlucks");
+        .inTable("potlucks");        
     });
   
     await knex.schema.table("potluckItems", tbl => {
