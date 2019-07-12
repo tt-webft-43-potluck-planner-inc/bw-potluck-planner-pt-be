@@ -15,7 +15,7 @@ exports.up = async function(knex) {
       .unique()
       .notNullable();
     tbl
-      .string("hash")
+      .string("password")
       .unique()
       .notNullable();
   });

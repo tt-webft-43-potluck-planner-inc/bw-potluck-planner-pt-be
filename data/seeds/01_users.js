@@ -6,39 +6,40 @@ exports.seed = async function(knex) {
     {
       firstName: "Christopher",
       lastName: "Harrison",
-      hash: await createHash("admin", 10),
+      password: await createHash("admin", 10),
       email: "cnharrison@gmail.com"
     },
     {
       firstName: "Derek",
       lastName: "Jones",
-      hash: await createHash("admin", 10),
+      password: await createHash("admin", 10),
       email: "thederekjones@gmail.com"
     },
     {
       firstName: "Chris",
       lastName: "Tutor",
-      hash: await createHash("admin", 10),
+      password: await createHash("admin", 10),
       email: "christutor089@gmail.com"
     },
     {
       firstName: "Robert",
       lastName: "Gant",
-      hash: await createHash("admin", 10),
+      password: await createHash("admin", 10),
       email: "gant123@gmail.com"
     }
   ];
-  const password = "W1S3Vlqpzrnl";
+  const password = "lambda";
 
   for (let i = 0; i < 50; i++) {
     let newUser = {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      email: faker.internet.email()
+      email: faker.internet.email(),
+      password: password
     };
     try {
       const hash = await createHash(password, 10);
-      newUser.hash = hash;
+      newUser.password = hash;
       const userCheck = await db.findByEmail(newUser.email);
       if (userCheck) {
         console.log("email taken--skipping");
