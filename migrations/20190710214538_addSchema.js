@@ -20,6 +20,12 @@ exports.up = async function(knex) {
       .notNullable();
   });
 
+  await knex.schema.createTable("potlucks", tbl => {
+    tbl.increments("id");
+    tbl.string("locationName").notNullable();
+    tbl.string("locationAddress").notNullable();
+  });
+
   await knex.schema.createTable("usersPotlucks", tbl => {
     tbl.increments("id");
     tbl.integer("userId").notNullable();
@@ -35,11 +41,7 @@ exports.up = async function(knex) {
     tbl.integer("role").notNullable();
     tbl.integer("attendance");
   });
-  await knex.schema.createTable("potlucks", tbl => {
-    tbl.increments("id");
-    tbl.string("locationName").notNullable();
-    tbl.string("locationAddress").notNullable();
-  });
+
   await knex.schema.createTable("potluckItems", tbl => {
     tbl.increments("id");
     tbl.integer("potluckItemsUserId").notNullable();
