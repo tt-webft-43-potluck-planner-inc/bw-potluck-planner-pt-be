@@ -24,10 +24,10 @@ module.exports = {
   },
 
   production: {
-    client: "pg",
+    client: "mysql",
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: "./migrations"
+      directory: "./data/migrations"
     },
     seeds: {
       directory: "./data/seeds/"
