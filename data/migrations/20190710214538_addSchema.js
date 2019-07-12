@@ -38,7 +38,7 @@ exports.up = async function(knex) {
   });
   await knex.schema.createTable("potluckRequirements", tbl => {
     tbl.increments("id");
-    tbl.integer("potluckrequirementsId").notNullable();
+    tbl.integer("potluckRequirementsId").notNullable();
     tbl.string("foodType").notNullable();
     tbl.integer("servings").notNullable();
   });
