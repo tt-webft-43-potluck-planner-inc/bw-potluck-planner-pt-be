@@ -27,5 +27,8 @@
     "pg": "^7.11.0",
     "sqlite3": "^4.0.9",
     "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.0.1"
   }
 }
