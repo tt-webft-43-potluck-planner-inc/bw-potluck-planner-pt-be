@@ -6,7 +6,7 @@ exports.seed = async function(knex) {
     let newFoodItem = {
       foodName: faker.commerce.productName(),
       potluckItemsUserId: (Math.random() * (54 - 1 + 1)) << 0,
-      potluckITemsPotluckId: (Math.random() * (11 - 1 + 1)) << 0,
+      potluckItemsPotluckId: (Math.random() * (11 - 1 + 1)) << 0,
       servings: (Math.random() * (10 - 1 + 1)) << 0
     };
     foodItems.push(newFoodItem);
