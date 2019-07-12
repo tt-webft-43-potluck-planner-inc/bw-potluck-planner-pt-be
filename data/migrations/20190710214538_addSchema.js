@@ -2,12 +2,9 @@ exports.up = async function(knex) {
   await knex.schema.dropTableIfExists("potluck_planner");
   await knex.schema.createTable("users", tbl => {
     tbl.increments("id");
-    tbl
-      .integer("userId")
-      .unique()
-      .notNullable();
+
     tbl.string("firstName").notNullable();
-    tbl.string("lasttName").notNullable();
+    tbl.string("lastName").notNullable();
     tbl
       .string("email")
       .unique()
@@ -58,11 +55,4 @@ exports.down = async function(knex) {
   await knex.schema.dropTableIfExists("potluckItems");
   await knex.schema.dropTableIfExists("potluckRequirements");
 
-  await knex.schema.createTable("potluck_planner", tbl => {
-    tbl.increments();
-    tbl
-      .string("name", 128)
-      .notNullable()
-      .unique();
-  });
 };
