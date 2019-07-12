@@ -54,7 +54,7 @@ exports.up = async function(knex) {
     tbl.string("foodType").notNullable();
     tbl.integer("servings").notNullable();
     tbl
-    .foreign("potluckrequirementsId")
+    .foreign("potluckRequirementsId")
     .references("id")
     .inTable("potlucks");
   });
