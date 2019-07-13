@@ -40,6 +40,6 @@ router.post("/", restricted, async (req, res) => {
     let savedRelationship = await UsersPotlucks.insert(newRelationship);
     res.status(200).json([savedPotluck, savedRelationship]);
   } catch (error) {
-    res.status(500).json(error, req.body);
+    res.status(500).json(error);
   }
 });
