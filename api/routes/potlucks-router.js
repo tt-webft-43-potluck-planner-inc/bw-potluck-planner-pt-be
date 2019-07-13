@@ -25,12 +25,10 @@ router.post("/", restricted, async (req, res) => {
       !locationCountry ||
       !locationPostcode
     ) {
-      res
-        .status(400)
-        .json({
-          message:
-            "please provide a address, street, state, city, country and postalcode"
-        });
+      res.status(400).json({
+        message:
+          "please provide a address, street, state, city, country and postalcode"
+      });
     }
     let savedPotluck = await Potlucks.insert(newPotluck);
     const newRelationship = {
