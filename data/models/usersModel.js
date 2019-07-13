@@ -37,7 +37,6 @@ async function insert(record) {
   const [id] = await db("users").insert(record);
   return db("users")
     .where({ id })
-    .first();
 }
 
 async function update(id, record) {

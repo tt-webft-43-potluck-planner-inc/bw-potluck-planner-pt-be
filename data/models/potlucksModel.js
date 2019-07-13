@@ -22,7 +22,6 @@ async function insert(potluck) {
   const [id] = await db("potlucks").insert(potluck);
   return db("potlucks")
     .where({ id })
-    .first();
 }
 
 async function update(id, potluck) {
