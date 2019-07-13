@@ -36,7 +36,7 @@ async function findByPotluckId(id) {
 async function insert(record) {
   const [id] = await db("users").insert(record);
   return db("users")
-    .where({ id })
+    .where("id", Number(id))
 }
 
 async function update(id, record) {
