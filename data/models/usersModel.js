@@ -33,8 +33,8 @@ async function findByPotluckId(id) {
     .where("potluckId", Number(id));
 }
 
-async function insert(record) {
-  const [id] = await db("users").insert(record);
+function insert(record) {
+  const [id] = db("users").insert(record);
   return db("users")
     .where({ id })
     .first();
