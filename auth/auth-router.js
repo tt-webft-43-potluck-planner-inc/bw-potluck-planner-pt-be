@@ -25,8 +25,6 @@ router.post("/register", (req, res) => {
 
   Users.insert(user)
     .then(saved => {
-      const token = generateToken(saved);
-
       res.status(201).json({
         message: `welcome ${saved.firstName}, u are now registered`
       });
