@@ -18,20 +18,20 @@ function generateToken(user) {
   );
 }
 
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10);
   user.password = hash;
+try { 
+  let insertedUser = await Users.insert(user)
 
-  Users.insert(user)
-    .then(saved => {
       res.status(201).json({
-        message: `welcome ${saved.firstName}, u are now registered`
+        message: `welcome ${insertedUser.firstName}, u are now registered`
       });
-    })
-    .catch(error => {
-      res.status(500).json(error);
-    });
+
+  } catch (error) { 
+    res.status(500).json(error);
+  }
 });
 
 router.post("/login", (req, res) => {
