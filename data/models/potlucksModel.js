@@ -21,7 +21,8 @@ async function findById(id) {
 async function insert(potluck) {
   const [id] = await db("potlucks").insert(potluck);
   return db("potlucks")
-    .where("id", Number(id))
+    .where({ id })
+    .first();
 }
 
 async function update(id, potluck) {
