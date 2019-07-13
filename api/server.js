@@ -12,7 +12,7 @@ server.use(helm(), express.json(), morgan("dev"));
 server.use(cors());
 
 server.use("/api/auth", authRouter);
-server.use("/api/user", usersRouter);
+server.use("/api/users", usersRouter);
 server.use("/api/potlucks", potlucksRouter);
 
 server.get("/", async (req, res) => {
