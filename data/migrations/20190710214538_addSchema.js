@@ -24,7 +24,7 @@ exports.up = async function(knex) {
     tbl.string("locationState").notNullable();
     tbl.string("locationCity").notNullable();
     tbl.string("locationCountry").notNullable();
-    tbl.integer("locationPostcode").notNullable();
+    tbl.string("locationPostcode").notNullable();
   });
 
   await knex.schema.createTable("usersPotlucks", tbl => {
