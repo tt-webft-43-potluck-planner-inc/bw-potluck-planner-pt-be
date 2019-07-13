@@ -19,10 +19,10 @@ function generateToken(user) {
 }
 
 router.post("/register", async (req, res) => {
+try { 
   let user = req.body;
   const hash = await bcrypt.hashSync(user.password, 10);
   user.password = hash;
-try { 
   let insertedUser = await Users.insert(user)
       res.status(201).json({
         message: `welcome ${insertedUser.firstName}, u are now registered`
