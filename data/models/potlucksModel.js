@@ -5,7 +5,8 @@ module.exports = {
   findById,
   insert,
   update,
-  remove
+  remove,
+  findByLocation
 };
 
 async function getAll() {
@@ -32,4 +33,10 @@ async function remove(id) {
   return await db("potlucks")
     .where("id", Number(id))
     .del();
+}
+
+async function findByLocation(locationName) {
+  return await db("potlucks")
+    .where({ locationName })
+    .first();
 }

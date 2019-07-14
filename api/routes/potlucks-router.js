@@ -10,6 +10,7 @@ router.post("/", restricted, async (req, res) => {
   try {
     let newPotluck = req.body;
     let {
+      locationName,
       locationAddress,
       locationStreet,
       locationState,
@@ -18,6 +19,7 @@ router.post("/", restricted, async (req, res) => {
       locationPostcode
     } = req.body;
     if (
+      !locationName ||
       !locationAddress ||
       !locationStreet ||
       !locationState ||
@@ -27,10 +29,11 @@ router.post("/", restricted, async (req, res) => {
     ) {
       res.status(400).json({
         message:
-          "please provide a address, street, state, city, country and postalcode"
+          "please provide a nane, address, street, state, city, country and postalcode"
       });
     }
-    let savedPotluck = await Potlucks.insert(newPotluck);
+    await Potlucks.insert(newPotluck);
+    let savedPotluck = await Potlucks.findByLocation(req.body.locationName);
     const newRelationship = {
       userId: req.id,
       potluckId: savedPotluck.id,
