@@ -19,16 +19,16 @@ function generateToken(user) {
 }
 
 router.post("/register", async (req, res) => {
-try { 
-  let user = req.body;
-  const hash = await bcrypt.hashSync(user.password, 10);
-  user.password = hash;
-  let insertedUser = await Users.insert(user)
-      res.status(201).json({
-        message: `welcome ${insertedUser.firstName}, u are now registered`
-      });
-
-  } catch (error) { 
+  try {
+    let user = req.body;
+    const hash = await bcrypt.hashSync(user.password, 10);
+    user.password = hash;
+    let insertedUser = await Users.insert(user);
+    res.status(201).json({
+      message: `welcome ${insertedUser.firstName}, u are now registered`
+    });
+  } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
