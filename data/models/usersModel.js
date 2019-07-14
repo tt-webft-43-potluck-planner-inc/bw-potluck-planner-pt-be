@@ -6,8 +6,7 @@ module.exports = {
   remove,
   findById,
   findByEmail,
-  findByPotluckId,
-  findFirst
+  findByPotluckId
 };
 
 async function remove(id) {
