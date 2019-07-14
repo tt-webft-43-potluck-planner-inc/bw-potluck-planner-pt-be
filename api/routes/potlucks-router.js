@@ -34,6 +34,7 @@ router.post("/", restricted, async (req, res) => {
     }
     await Potlucks.insert(newPotluck);
     let savedPotluck = await Potlucks.findByLocation(req.body.locationName);
+
     const newRelationship = {
       userId: req.id,
       potluckId: savedPotluck.id,
@@ -41,7 +42,11 @@ router.post("/", restricted, async (req, res) => {
       attendance: 2
     };
     await UsersPotlucks.insert(newRelationship);
-    let savedRelationship = await UsersPotlucks.findById(savedPotluck.id);
+    let savedRelationship = await UsersPotlucks.findByUserIdAndPotluckId(
+      req.id,
+      savedPotluck.id
+    );
+
     res.status(200).json([savedPotluck, savedRelationship]);
   } catch (error) {
     res.status(500).json(error);
