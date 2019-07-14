@@ -18,11 +18,8 @@ async function findById(id) {
     .first();
 }
 
-async function insert(potluck) {
-  const [id] = await db("usersPotlucks").insert(potluck);
-  return db("usersPotlucks")
-    .where({ id })
-    .first();
+async function insert(record) {
+  return await db("usersPotlucks").insert(record);
 }
 
 async function update(id, potluck) {
