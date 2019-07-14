@@ -37,7 +37,8 @@ router.post("/", restricted, async (req, res) => {
       role: 0,
       attendance: 2
     };
-    let savedRelationship = await UsersPotlucks.insert(newRelationship);
+    await UsersPotlucks.insert(newRelationship);
+    let savedRelationship = await UsersPotlucks.findById(savedPotluck.id);
     res.status(200).json([savedPotluck, savedRelationship]);
   } catch (error) {
     res.status(500).json(error);

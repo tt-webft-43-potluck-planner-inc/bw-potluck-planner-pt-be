@@ -6,7 +6,8 @@ module.exports = {
   remove,
   findById,
   findByEmail,
-  findByPotluckId
+  findByPotluckId,
+  findFirst
 };
 
 async function remove(id) {
@@ -34,10 +35,7 @@ async function findByPotluckId(id) {
 }
 
 async function insert(record) {
-  const [id] = await db("users").insert(record);
-  return db("users")
-    .where({ id })
-    .first();
+  return await db("users").insert(record);
 }
 
 async function update(id, record) {
