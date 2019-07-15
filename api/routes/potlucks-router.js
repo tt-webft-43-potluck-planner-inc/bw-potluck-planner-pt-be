@@ -52,3 +52,12 @@ router.post("/", restricted, async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+router.get("/user/:userId", restricted, async (req, res) => {
+  try {
+    let potlucks = await Potlucks.findByUserId(req.id);
+    res.status(200).json(potlucks);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});

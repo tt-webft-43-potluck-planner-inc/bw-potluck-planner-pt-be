@@ -6,7 +6,8 @@ module.exports = {
   insert,
   update,
   remove,
-  findByLocation
+  findByLocation,
+  findByUserId
 };
 
 async function getAll() {
@@ -39,4 +40,10 @@ async function findByLocation(locationName) {
   return await db("potlucks")
     .where({ locationName })
     .first();
+}
+
+async function findByUserId(userId) {
+  return await db("potlucks")
+    .join("usersPotlucks", { "potlucks.id": "usersPotlucks.potluckId" })
+    .where("usersPotlucks.userId", Number(userId));
 }
