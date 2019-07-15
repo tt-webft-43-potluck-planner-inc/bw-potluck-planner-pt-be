@@ -53,7 +53,7 @@ router.post("/", restricted, async (req, res) => {
   }
 });
 
-router.get("/user/:userId", restricted, async (req, res) => {
+router.get("/user/", restricted, async (req, res) => {
   try {
     let potlucks = await Potlucks.findByUserId(req.id);
     res.status(200).json(potlucks);
