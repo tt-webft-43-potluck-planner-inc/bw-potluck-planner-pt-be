@@ -4,7 +4,8 @@ exports.seed = async function(knex) {
   const requirements = [];
   for (let i = 0; i < 100; i++) {
     let newRequirement = {
-      foodType: faker.commerce.productAdjective(),
+      foodDescription: faker.commerce.productName(),
+      foodCategory: faker.commerce.productAdjective(),
       potluckId: (Math.random() * (54 - 1 + 1)) << 0,
       servings: (Math.random() * (10 - 1 + 1)) << 0
     };

@@ -2,6 +2,7 @@ const restricted = require("../../auth/restricted-middleware.js");
 const Potlucks = require("../../data/models/potlucksModel.js");
 const UsersPotlucks = require("../../data/models/usersPotlucksModel.js");
 const Users = require("../../data/models/usersModel.js");
+const PotluckRequirements = require("../../data/models/potluckRequirementsModel.js");
 
 const router = require("express").Router();
 
@@ -69,7 +70,7 @@ router.post("/user/add", restricted, async (req, res) => {
     if (!potluckId || !role || !email) {
       res.status(400).json({
         message:
-          "please provide a the potluckId of the potluck to add, as well as user's email and role" 
+          "please provide a the potluckId of the potluck to add, as well as user's email and role"
       });
     }
     let user = await Users.findByEmail(email);
@@ -83,5 +84,45 @@ router.post("/user/add", restricted, async (req, res) => {
     res.status(200).json(toInsert);
   } catch (error) {
     res.status(500).json(error);
+  }
+});
+
+router.get("/mine", restricted, async (req, res) => {
+  try {
+    let relationships = await UsersPotlucks.findAdminPotlucks(req.id);
+    let potlucksRelationships = relationships.map(async relationship => {
+      return await Potlucks.findById(relationship.id);
+    });
+    console.log(relationships);
+    console.log(potlucksRelationships);
+    res.status(200).json(potlucksRelationships);
+  } catch (error) {
+    res.status(500).error;
+  }
+});
+
+router.post("/reqs/add/", restricted, async (req, res) => {
+  try {
+    let { foodCategory, foodDescription, potluckId } = req.body;
+    let relationship = await UsersPotlucks.findByUserIdAndPotluckId(
+      req.id,
+      potluckId
+    );
+    console.log(potluckId);
+    console.log(req.id);
+    console.log(relationship);
+    let response = {
+      foodCategory,
+      foodDescription,
+      potluckId
+    };
+    if (relationship.role === 0) {
+      await PotluckRequirements.insert(response);
+      res.status(200).json(response);
+    } else {
+      res.status(400).json({ message: "you are not an admin of this potluck" });
+    }
+  } catch (error) {
+    res.status(500).error;
   }
 });

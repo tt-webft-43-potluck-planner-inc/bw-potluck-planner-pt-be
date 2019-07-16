@@ -6,7 +6,8 @@ module.exports = {
   insert,
   update,
   remove,
-  findByUserIdAndPotluckId
+  findByUserIdAndPotluckId,
+  findAdminPotlucks
 };
 
 async function getAll() {
@@ -40,4 +41,10 @@ async function findByUserIdAndPotluckId(userId, potluckId) {
     .where({ userId })
     .andWhere({ potluckId })
     .first();
+}
+
+async function findAdminPotlucks(userId) {
+  return await db("usersPotlucks")
+    .where({ userId })
+    .andWhere("role", 0);
 }
