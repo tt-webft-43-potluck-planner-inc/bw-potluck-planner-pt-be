@@ -18,6 +18,7 @@ function generateToken(user) {
   );
 }
 
+<<<<<<< HEAD
 router.post("/register", async (req, res) => {
   try {
     let user = req.body;
@@ -27,6 +28,23 @@ router.post("/register", async (req, res) => {
     let insertedUser = await Users.findByEmail(user.email);
     res.status(201).json({
       message: `welcome ${insertedUser.firstName}, u are now registered`
+=======
+router.post("/register", (req, res) => {
+  let user = req.body;
+  const hash = bcrypt.hashSync(user.password, 10);
+  user.password = hash;
+
+  Users.insert(user)
+    .then(saved => {
+      const token = generateToken(saved);
+
+      res.status(201).json({
+        message: `welcome ${saved.firstName}, u are now registered`
+      });
+    })
+    .catch(error => {
+      res.status(500).json(error);
+>>>>>>> b5698c701ef319ff73268139fb0de892143e5ab1
     });
   } catch (error) {
     console.log(error);
