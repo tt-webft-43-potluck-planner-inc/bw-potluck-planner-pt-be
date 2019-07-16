@@ -72,9 +72,9 @@ router.post("/user/add", restricted, async (req, res) => {
           "please provide a the potluckId of the potluck to add, as well as user's email and role" 
       });
     }
-    let { userId } = await Users.findByEmail(email);
+    let user = await Users.findByEmail(email);
     let toInsert = {
-      userId,
+      userId: user.id,
       potluckId,
       role,
       attendance: 2
