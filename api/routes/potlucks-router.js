@@ -65,11 +65,11 @@ router.get("/user/", restricted, async (req, res) => {
 
 router.post("/user/add", restricted, async (req, res) => {
   try {
-    let { potluckId, role, attendance, email } = req.body;
-    if (!potluckId || !role || !attendance || !email) {
+    let { potluckId, role, email } = req.body;
+    if (!potluckId || !role || !email) {
       res.status(400).json({
         message:
-          "please provide a the potluckId of the potluck to add, as well as user's email, role, and attendance"
+          "please provide a the potluckId of the potluck to add, as well as user's email and role" 
       });
     }
     let { userId } = await Users.findByEmail(email);
@@ -77,7 +77,7 @@ router.post("/user/add", restricted, async (req, res) => {
       userId,
       potluckId,
       role,
-      attendance
+      attendance: 2
     };
     await UsersPotlucks.insert(toInsert);
     res.status(200).json(toInsert);
