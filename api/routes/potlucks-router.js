@@ -1,6 +1,7 @@
 const restricted = require("../../auth/restricted-middleware.js");
 const Potlucks = require("../../data/models/potlucksModel.js");
 const UsersPotlucks = require("../../data/models/usersPotlucksModel.js");
+const Users = require("../../data/models/usersModel.js");
 
 const router = require("express").Router();
 
@@ -57,6 +58,29 @@ router.get("/user/", restricted, async (req, res) => {
   try {
     let potlucks = await Potlucks.findByUserId(req.id);
     res.status(200).json(potlucks);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.post("/user/add", restricted, async (req, res) => {
+  try {
+    let { potluckId, role, email } = req.body;
+    if (!potluckId || !role || !email) {
+      res.status(400).json({
+        message:
+          "please provide a the potluckId of the potluck to add, as well as user's email and role" 
+      });
+    }
+    let user = await Users.findByEmail(email);
+    let toInsert = {
+      userId: user.id,
+      potluckId,
+      role,
+      attendance: 2
+    };
+    await UsersPotlucks.insert(toInsert);
+    res.status(200).json(toInsert);
   } catch (error) {
     res.status(500).json(error);
   }
