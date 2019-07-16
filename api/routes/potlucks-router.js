@@ -101,9 +101,15 @@ router.get("/mine", restricted, async (req, res) => {
   }
 });
 
-router.post("/reqs/add/", restricted, async (req, res) => {
+router.post("/reqs/", restricted, async (req, res) => {
   try {
-    let { foodCategory, foodDescription, potluckId } = req.body;
+    let {
+      foodCategory,
+      foodDescription,
+      potluckId,
+      servings,
+      fufilled
+    } = req.body;
     let relationship = await UsersPotlucks.findByUserIdAndPotluckId(
       req.id,
       potluckId
@@ -114,7 +120,9 @@ router.post("/reqs/add/", restricted, async (req, res) => {
     let response = {
       foodCategory,
       foodDescription,
-      potluckId
+      potluckId,
+      servings,
+      fufilled
     };
     if (relationship.role === 0) {
       await PotluckRequirements.insert(response);
