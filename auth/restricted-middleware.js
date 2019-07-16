@@ -1,8 +1,6 @@
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
 const secrets = process.env.JWT_SECRET || "lambda";
-const Users = require("../data/models/usersModel.js");
+
 
 module.exports = (req, res, next) => {
   const token = req.headers.authorization;
