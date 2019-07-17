@@ -90,12 +90,8 @@ router.post("/user/add", restricted, async (req, res) => {
 router.get("/mine", restricted, async (req, res) => {
   try {
     let relationships = await UsersPotlucks.findAdminPotlucks(req.id);
-    let potlucksRelationships = relationships.map(async relationship => {
-      return await Potlucks.findById(relationship.id);
-    });
-    console.log(relationships);
-    console.log(potlucksRelationships);
-    res.status(200).json(potlucksRelationships);
+    let potlucks = await Potlucks.findAdminPotlucks(req.id)
+    res.status(200).json(potlucks);
   } catch (error) {
     res.status(500).error;
   }
