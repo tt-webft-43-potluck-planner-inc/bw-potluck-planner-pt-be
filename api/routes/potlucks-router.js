@@ -55,6 +55,15 @@ router.post("/", restricted, async (req, res) => {
   }
 });
 
+router.get("/", restricted, async (req, res) => {
+  try {
+    let potlucks = await Potlucks.findMyPotlucks(req.id);
+    res.status(200).json(potlucks);
+  } catch (error) {
+    res.status(500).error;
+  }
+});
+
 router.post("/user/add", restricted, async (req, res) => {
   try {
     let { potluckId, role, email } = req.body;
