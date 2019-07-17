@@ -14,7 +14,7 @@ exports.up = async function(knex) {
 
   await knex.schema.createTable("potlucks", tbl => {
     tbl.increments("id");
-    tbl.string("locationName").notNullable();
+    tbl.string("locationName").notNullable().unique();
     tbl.integer("locationAddress").notNullable();
     tbl.string("locationStreet").notNullable();
     tbl.string("locationUnit");

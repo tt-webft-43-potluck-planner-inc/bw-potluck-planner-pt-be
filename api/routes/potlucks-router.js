@@ -31,11 +31,11 @@ router.post("/", restricted, async (req, res) => {
     ) {
       res.status(400).json({
         message:
-          "please provide a nane, address, street, state, city, country and postalcode"
+          "please provide a name, address, street, state, city, country and postalcode"
       });
     }
     await Potlucks.insert(newPotluck);
-    let savedPotluck = await Potlucks.findByLocation(req.body.locationName);
+    let savedPotluck = await Potlucks.findByLocation(locationName);
 
     const newRelationship = {
       userId: req.id,
@@ -50,15 +50,6 @@ router.post("/", restricted, async (req, res) => {
     );
 
     res.status(200).json([savedPotluck, savedRelationship]);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-router.get("/user/", restricted, async (req, res) => {
-  try {
-    let potlucks = await Potlucks.findByUserId(req.id);
-    res.status(200).json(potlucks);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -89,22 +80,18 @@ router.post("/user/add", restricted, async (req, res) => {
 
 router.get("/mine", restricted, async (req, res) => {
   try {
-    let potlucks = await Potlucks.findAdminPotlucks(req.id)
+    let potlucks = await Potlucks.findAdminPotlucks(req.id);
     res.status(200).json(potlucks);
   } catch (error) {
     res.status(500).error;
   }
 });
 
-router.post("/reqs/", restricted, async (req, res) => {
+router.post("/reqs/:id", restricted, async (req, res) => {
+  let potluckId = req.params.id;
+  console.log(potluckId);
+  let { foodCategory, foodDescription, servings, fufilled } = req.body;
   try {
-    let {
-      foodCategory,
-      foodDescription,
-      potluckId,
-      servings,
-      fufilled
-    } = req.body;
     let relationship = await UsersPotlucks.findByUserIdAndPotluckId(
       req.id,
       potluckId
@@ -116,7 +103,7 @@ router.post("/reqs/", restricted, async (req, res) => {
       servings,
       fufilled
     };
-    if (relationship.role === 0) {
+    if (relationship && relationship.role === 0) {
       await PotluckRequirements.insert(response);
       res.status(200).json(response);
     } else {
@@ -127,19 +114,61 @@ router.post("/reqs/", restricted, async (req, res) => {
   }
 });
 
-router.get("/reqs/", restricted, async (req, res) => {
-  let { potluckId } = req.body
+router.get("/reqs/:id", restricted, async (req, res) => {
+  let potluckId = req.params.id;
+  console.log(potluckId);
   try {
-    let relationship = await UsersPotlucks.findByUserIdAndPotluckId(
-      req.id,
-      potluckId
-    );
-    if (relationship.role === 0) {
-      const response = await PotluckRequirements.getByPotluckId(potluckId);
-      res.status(200).json(response);
-    } else {
-      res.status(400).json({ message: "you are not an admin of this potluck" });
-    }
+    const response = await PotluckRequirements.getByPotluckId(potluckId);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
-   } catch (error) {res.status(500).json(error)}
+router.put("/:id", restricted, async (req, res) => {
+  let id = req.params.id;
+  console.log(id);
+  try {
+    let potluck = await Potlucks.findById(id);
+    let relationship = await UsersPotlucks.findByUserIdAndPotluckId(req.id, id);
+    if (!potluck) {
+      res.status(404).json({
+        message: "no such potluck"
+      });
+    } else if (relationship && relationship.role === 0) {
+      await Potlucks.update(id, req.body);
+      let updatedPotluck = await Potlucks.findById(id);
+      res.status(200).json(updatedPotluck);
+    } else {
+      res.status(400).json({
+        message:
+          "you are not an organizer of this potluck, so you cannot edit it"
+      });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.delete("/:id", restricted, async (req, res) => {
+  let id = req.params.id;
+  try {
+    let potluck = await Potlucks.findById(id);
+    let relationship = await UsersPotlucks.findByUserIdAndPotluckId(req.id, id);
+    if (!potluck) {
+      res.status(404).json({
+        message: "no such potluck"
+      });
+    } else if (relationship && relationship.role === 0) {
+      await Potlucks.remove(id);
+      res.status(200).json(potluck);
+    } else {
+      res.status(400).json({
+        message:
+          "you are not an organizer of this potluck, so you cannot delete it"
+      });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
