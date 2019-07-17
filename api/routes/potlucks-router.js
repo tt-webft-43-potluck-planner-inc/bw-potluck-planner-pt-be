@@ -89,7 +89,6 @@ router.post("/user/add", restricted, async (req, res) => {
 
 router.get("/mine", restricted, async (req, res) => {
   try {
-    let relationships = await UsersPotlucks.findAdminPotlucks(req.id);
     let potlucks = await Potlucks.findAdminPotlucks(req.id)
     res.status(200).json(potlucks);
   } catch (error) {
@@ -110,9 +109,6 @@ router.post("/reqs/", restricted, async (req, res) => {
       req.id,
       potluckId
     );
-    console.log(potluckId);
-    console.log(req.id);
-    console.log(relationship);
     let response = {
       foodCategory,
       foodDescription,
