@@ -5,7 +5,8 @@ module.exports = {
   findById,
   insert,
   update,
-  remove
+  remove,
+  getByPotluckId
 };
 
 async function getAll() {
@@ -32,4 +33,9 @@ async function remove(id) {
   return await db("potluckRequirements")
     .where("id", Number(id))
     .del();
+}
+
+async function getByPotluckId(potluckId) { 
+  return await db("potluckRequirements")
+  .where({potluckId})
 }

@@ -126,3 +126,20 @@ router.post("/reqs/", restricted, async (req, res) => {
     res.status(500).error;
   }
 });
+
+router.get("/reqs/", restricted, async (req, res) => {
+  let { potluckId } = req.body
+  try {
+    let relationship = await UsersPotlucks.findByUserIdAndPotluckId(
+      req.id,
+      potluckId
+    );
+    if (relationship.role === 0) {
+      const response = await PotluckRequirements.getByPotluckId(potluckId);
+      res.status(200).json(response);
+    } else {
+      res.status(400).json({ message: "you are not an admin of this potluck" });
+    }
+
+   } catch (error) {res.status(500).json(error)}
+});
