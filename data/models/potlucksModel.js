@@ -7,7 +7,8 @@ module.exports = {
   update,
   remove,
   findByLocation,
-  findByUserId
+  findByUserId,
+  findAdminPotlucks
 };
 
 async function getAll() {
@@ -46,4 +47,12 @@ async function findByUserId(userId) {
   return await db("potlucks")
     .join("usersPotlucks", { "potlucks.id": "usersPotlucks.potluckId" })
     .where("usersPotlucks.userId", Number(userId));
+}
+
+
+async function findAdminPotlucks(userId) {
+  return await db("potlucks")
+    .join("usersPotlucks", { "potlucks.id": "usersPotlucks.potluckId" })
+    .where("usersPotlucks.role", 0)
+    .andWhere("userId", Number(userId))
 }
