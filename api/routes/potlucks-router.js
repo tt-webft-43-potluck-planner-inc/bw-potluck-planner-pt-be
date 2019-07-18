@@ -98,7 +98,6 @@ router.get("/mine", restricted, async (req, res) => {
 
 router.post("/reqs/:id", restricted, async (req, res) => {
   let potluckId = req.params.id;
-  console.log(potluckId);
   let { foodCategory, foodDescription, servings, fufilled } = req.body;
   try {
     let relationship = await UsersPotlucks.findByUserIdAndPotluckId(
@@ -116,7 +115,12 @@ router.post("/reqs/:id", restricted, async (req, res) => {
       await PotluckRequirements.insert(response);
       res.status(200).json(response);
     } else {
-      res.status(400).json({ message: "you are not an admin of this potluck" });
+      res
+        .status(400)
+        .json({
+          message:
+            "you are not an organizer of this potluck, so you can't add requirements to it"
+        });
     }
   } catch (error) {
     res.status(500).error;
