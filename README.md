@@ -43,5 +43,29 @@
    - If you do not, returns a `400` and an error message in the `message` key
 9. `GET /api/potlucks/reqs/:id`
    - **Get a list of requirements for a potluck**
-   - Send a blank body and a JSON web token in the header under the `authorization` key and the `id` of the potluck to get requirements for as the `id` parameter
+   - Send a blank body and a JSON web token in the header under the `authorization` key, and the `id` of the potluck to get requirements for as the `id` parameter
    - Returns an array of requirement objects for the potluck
+10. `PUT /api/putlucks/:id`
+    - **Edits a potluck**
+    - Send a JSON web token in the header under the `authorization` key, the id of the potluck as a paremeter, and a potluck object in the body 
+    - Returns the edited object
+
+11. `DELETE /api/potlucks/:id`
+    - **Deletes a potluck**
+    - Send a blank body and a JSON web token in the header under `authorization` key 
+    - Returns the deleted potluck
+
+12. `POST /api/food/`
+    - **Adds food to a potluck if you are an invitee**
+    - Send a JSON web token in the header under the `authorization` key and a food object consisting of `potluckId`, `foodCategory`, `foodDescription`, and `servings`. `potluckId` and `servings` are numbers, the rest are strings. 
+    - Returns food object added
+
+    ## Todo
+
+    - `DELETE` reqirements
+    - `PUT` food 
+    - `DELETE` food 
+    - Return all potlucks with food, requirement, user and role data included 
+    
+    
+
