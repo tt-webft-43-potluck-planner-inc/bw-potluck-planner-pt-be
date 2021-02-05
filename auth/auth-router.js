@@ -13,7 +13,7 @@ function generateToken(user) {
     },
     secrets,
     {
-      expiresIn: "1h"
+      expiresIn: "6h"
     }
   );
 }
@@ -44,6 +44,7 @@ router.post("/login", (req, res) => {
 
         res.status(200).json({
           message: `hello again ${user.firstName}, u are now logged in`,
+          id: user.id,
           authToken: token
         });
       } else {
